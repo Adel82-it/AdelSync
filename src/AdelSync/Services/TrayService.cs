@@ -1,6 +1,8 @@
-using System.Drawing;
 using System.Windows;
 using Forms = System.Windows.Forms;
+using DrawingIcon = System.Drawing.Icon;
+using DrawingBitmap = System.Drawing.Bitmap;
+using DrawingSystemIcons = System.Drawing.SystemIcons;
 
 namespace AdelSync.Services;
 
@@ -29,7 +31,7 @@ public sealed class TrayService : IDisposable
         menu.Items.Add("Выход", null, (_, _) =>
         {
             _icon.Visible = false;
-            System.Windows.Application.Current.Shutdown();
+            Application.Current.Shutdown();
         });
         return menu;
     }
@@ -58,16 +60,16 @@ public sealed class TrayService : IDisposable
 
     public void SetTip(string text) => _icon.Text = text.Length > 60 ? text[..60] : text;
 
-    private static Icon LoadIcon()
+    private static DrawingIcon LoadIcon()
     {
         try
         {
             var uri = new Uri("pack://application:,,,/Assets/app.png", UriKind.Absolute);
-            var streamInfo = System.Windows.Application.GetResourceStream(uri);
+            var streamInfo = Application.GetResourceStream(uri);
             if (streamInfo?.Stream != null)
             {
-                using var bmp = new Bitmap(streamInfo.Stream);
-                return Icon.FromHandle(bmp.GetHicon());
+                using var bmp = new DrawingBitmap(streamInfo.Stream);
+                return DrawingIcon.FromHandle(bmp.GetHicon());
             }
         }
         catch
@@ -75,7 +77,7 @@ public sealed class TrayService : IDisposable
             // fallback
         }
 
-        return SystemIcons.Application;
+        return DrawingSystemIcons.Application;
     }
 
     public void Dispose()
