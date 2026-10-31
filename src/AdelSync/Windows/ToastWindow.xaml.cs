@@ -26,7 +26,7 @@ public partial class ToastWindow : Window
 
     public static void ShowToast(string title, string body)
     {
-        Application.Current.Dispatcher.Invoke(() =>
+        System.Windows.Application.Current.Dispatcher.Invoke(() =>
         {
             var w = new ToastWindow(title, body);
             w.Show();
