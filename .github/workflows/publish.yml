@@ -1,0 +1,38 @@
+# Сборка AdelSync (WPF) на GitHub-hosted Windows — как в проекте ТГК.
+name: Publish AdelSync
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "ci/**"
+      - ".github/workflows/publish.yml"
+      - "AdelSync.sln"
+
+jobs:
+  publish:
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Publish AdelSync.exe
+        shell: pwsh
+        run: ./ci/publish.ps1
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: AdelSync-windows
+          path: |
+            dist/AdelSync.exe
+          if-no-files-found: error
+          retention-days: 30

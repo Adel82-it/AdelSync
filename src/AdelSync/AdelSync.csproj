@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <DisableWindowsFormsImplicitUsings>true</DisableWindowsFormsImplicitUsings>
+    <AssemblyName>AdelSync</AssemblyName>
+    <RootNamespace>AdelSync</RootNamespace>
+    <Product>AdelSync</Product>
+    <Company>Адель Гайнуллин</Company>
+    <Description>AdelSync — контроль обмена 1С, антиретрай и оценка нагрузки. От Адель Гайнуллина.</Description>
+    <Copyright>© Адель Гайнуллин</Copyright>
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <ApplicationIcon Condition="Exists('Assets\\app.ico')">Assets\app.ico</ApplicationIcon>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>false</EnableCompressionInSingleFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\app.png" />
+    <Resource Include="Assets\tray.png" />
+    <Content Include="Assets\app.ico" Condition="Exists('Assets\app.ico')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

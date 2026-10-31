@@ -1,0 +1,122 @@
+<Window x:Class="AdelSync.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:AdelSync.Controls"
+        Title="AdelSync — контроль обмена 1С"
+        Width="980" Height="640"
+        MinWidth="860" MinHeight="560"
+        Background="{StaticResource BgBrush}"
+        FontFamily="{StaticResource UiFont}"
+        WindowStartupLocation="CenterScreen">
+  <Grid Margin="22">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+
+    <!-- Header -->
+    <Grid Grid.Row="0" Margin="0,0,0,18">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <Border Width="52" Height="52" CornerRadius="14" Background="#121A2B">
+        <Image Source="pack://application:,,,/Assets/app.png" Margin="8" Stretch="Uniform"/>
+      </Border>
+      <StackPanel Grid.Column="1" Margin="14,0,0,0" VerticalAlignment="Center">
+        <TextBlock Text="AdelSync" FontSize="26" FontWeight="SemiBold" Foreground="{StaticResource TextBrush}"/>
+        <TextBlock Text="от Адель Гайнуллина · контроль обмена 1С и защита от ретраев"
+                   Foreground="{StaticResource MutedBrush}" FontSize="13" Margin="0,2,0,0"/>
+      </StackPanel>
+      <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+        <Border x:Name="StatusPill" CornerRadius="999" Padding="14,8" Background="#172033">
+          <TextBlock x:Name="StatusPillText" Text="подключение…" Foreground="{StaticResource TealBrush}" FontWeight="SemiBold"/>
+        </Border>
+        <Button Content="Обновить" Margin="10,0,0,0" Padding="14,8" Click="Refresh_Click"
+                Background="#2DD4BF" Foreground="#0B1220" BorderThickness="0" Cursor="Hand" FontWeight="SemiBold"/>
+      </StackPanel>
+    </Grid>
+
+    <!-- Gauges row -->
+    <Grid Grid.Row="1" Margin="0,0,0,16">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+
+      <Border Grid.Column="0" Background="{StaticResource CardBrush}" CornerRadius="18" Padding="12" Margin="0,0,8,0">
+        <StackPanel>
+          <controls:GaugeControl x:Name="CpuGauge" Caption="оценка CPU экон." Accent="{StaticResource TealBrush}"/>
+          <TextBlock x:Name="CpuLabel" Text="ожидание обмена" HorizontalAlignment="Center"
+                     Foreground="{StaticResource MutedBrush}" FontSize="12" Margin="0,-6,0,4"/>
+        </StackPanel>
+      </Border>
+
+      <Border Grid.Column="1" Background="{StaticResource CardBrush}" CornerRadius="18" Padding="12" Margin="4,0">
+        <StackPanel>
+          <controls:GaugeControl x:Name="SkipGauge" Caption="отбито сегодня" Accent="{StaticResource AmberBrush}"/>
+          <TextBlock x:Name="SkipLabel" Text="0 повторов" HorizontalAlignment="Center"
+                     Foreground="{StaticResource MutedBrush}" FontSize="12" Margin="0,-6,0,4"/>
+        </StackPanel>
+      </Border>
+
+      <Border Grid.Column="2" Background="{StaticResource CardBrush}" CornerRadius="18" Padding="16" Margin="8,0,0,0">
+        <StackPanel VerticalAlignment="Center">
+          <TextBlock Text="СЛЕДУЮЩИЙ ОБМЕН" Foreground="{StaticResource MutedBrush}" FontSize="11" FontWeight="SemiBold"/>
+          <TextBlock x:Name="CooldownText" Text="—:—:—" FontSize="36" FontWeight="Bold"
+                     Foreground="{StaticResource TextBrush}" Margin="0,8,0,4"/>
+          <ProgressBar x:Name="CooldownBar" Height="8" Minimum="0" Maximum="100" Value="0"
+                       Foreground="{StaticResource TealBrush}" Background="#243047" BorderThickness="0"/>
+          <TextBlock x:Name="CooldownHint" Text="Когда таймер на нуле — можно снова полный разбор пакета"
+                     TextWrapping="Wrap" Foreground="{StaticResource MutedBrush}" FontSize="12" Margin="0,10,0,0"/>
+          <TextBlock x:Name="ImportsText" Text="Разборов сегодня: 0" Foreground="{StaticResource MutedBrush}"
+                     FontSize="12" Margin="0,8,0,0"/>
+        </StackPanel>
+      </Border>
+    </Grid>
+
+    <!-- Events -->
+    <Border Grid.Row="2" Background="{StaticResource CardBrush}" CornerRadius="18" Padding="16">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Журнал событий" FontSize="15" FontWeight="SemiBold" Foreground="{StaticResource TextBrush}"/>
+        <ListBox x:Name="EventsList" Grid.Row="1" Margin="0,10,0,0" Background="Transparent" BorderThickness="0"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <Border Background="#172033" CornerRadius="10" Padding="12,10" Margin="0,0,0,8">
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                  </Grid.ColumnDefinitions>
+                  <Border Width="8" Height="8" CornerRadius="4" VerticalAlignment="Top" Margin="0,4,10,0"
+                          Background="{Binding DotBrush}"/>
+                  <StackPanel Grid.Column="1">
+                    <TextBlock Text="{Binding Message}" TextWrapping="Wrap" Foreground="#E8EEF8" FontSize="13"/>
+                    <TextBlock Text="{Binding TypeLabel}" Foreground="#8B9BB8" FontSize="11" Margin="0,3,0,0"/>
+                  </StackPanel>
+                  <TextBlock Grid.Column="2" Text="{Binding TimeLabel}" Foreground="#8B9BB8" FontSize="11" Margin="12,0,0,0"/>
+                </Grid>
+              </Border>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+      </Grid>
+    </Border>
+
+    <Grid Grid.Row="3" Margin="0,12,0,0">
+      <TextBlock x:Name="FooterText" Text="AdelSync · zip-market.biz"
+                 Foreground="{StaticResource MutedBrush}" FontSize="12" VerticalAlignment="Center"/>
+      <TextBlock x:Name="ErrorText" HorizontalAlignment="Right" Foreground="{StaticResource DangerBrush}" FontSize="12"/>
+    </Grid>
+  </Grid>
+</Window>

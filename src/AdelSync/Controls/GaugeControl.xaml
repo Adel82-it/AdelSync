@@ -1,0 +1,17 @@
+<UserControl x:Class="AdelSync.Controls.GaugeControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Width="180" Height="140">
+  <Grid>
+    <Path x:Name="Track" Stroke="#243047" StrokeThickness="14" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+          Fill="Transparent" Data="M 20,110 A 70,70 0 1 1 160,110"/>
+    <Path x:Name="Arc" Stroke="#2DD4BF" StrokeThickness="14" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+          Fill="Transparent"/>
+    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,18,0,0">
+      <TextBlock x:Name="ValueText" Text="0" FontSize="34" FontWeight="Bold"
+                 Foreground="{StaticResource TextBrush}" HorizontalAlignment="Center"/>
+      <TextBlock x:Name="CaptionText" Text="CPU экон." FontSize="12"
+                 Foreground="{StaticResource MutedBrush}" HorizontalAlignment="Center"/>
+    </StackPanel>
+  </Grid>
+</UserControl>
