@@ -1,11 +1,10 @@
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Shapes;
+using MediaBrush = System.Windows.Media.Brush;
 
 namespace AdelSync.Controls;
 
-public partial class GaugeControl : UserControl
+public partial class GaugeControl : System.Windows.Controls.UserControl
 {
     public static readonly DependencyProperty ValueProperty =
         DependencyProperty.Register(nameof(Value), typeof(double), typeof(GaugeControl),
@@ -19,10 +18,10 @@ public partial class GaugeControl : UserControl
             }));
 
     public static readonly DependencyProperty AccentProperty =
-        DependencyProperty.Register(nameof(Accent), typeof(Brush), typeof(GaugeControl),
+        DependencyProperty.Register(nameof(Accent), typeof(MediaBrush), typeof(GaugeControl),
             new PropertyMetadata(null, (d, e) =>
             {
-                if (e.NewValue is Brush b)
+                if (e.NewValue is MediaBrush b)
                     ((GaugeControl)d).Arc.Stroke = b;
             }));
 
@@ -38,9 +37,9 @@ public partial class GaugeControl : UserControl
         set => SetValue(CaptionProperty, value);
     }
 
-    public Brush? Accent
+    public MediaBrush? Accent
     {
-        get => (Brush?)GetValue(AccentProperty);
+        get => (MediaBrush?)GetValue(AccentProperty);
         set => SetValue(AccentProperty, value);
     }
 

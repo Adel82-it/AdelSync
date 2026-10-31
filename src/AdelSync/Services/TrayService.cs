@@ -29,7 +29,7 @@ public sealed class TrayService : IDisposable
         menu.Items.Add("Выход", null, (_, _) =>
         {
             _icon.Visible = false;
-            Application.Current.Shutdown();
+            System.Windows.Application.Current.Shutdown();
         });
         return menu;
     }
@@ -63,7 +63,7 @@ public sealed class TrayService : IDisposable
         try
         {
             var uri = new Uri("pack://application:,,,/Assets/app.png", UriKind.Absolute);
-            var streamInfo = Application.GetResourceStream(uri);
+            var streamInfo = System.Windows.Application.GetResourceStream(uri);
             if (streamInfo?.Stream != null)
             {
                 using var bmp = new Bitmap(streamInfo.Stream);

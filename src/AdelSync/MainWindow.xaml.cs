@@ -5,6 +5,7 @@ using System.Windows.Threading;
 using AdelSync.Services;
 using AdelSync.Windows;
 using Forms = System.Windows.Forms;
+using MediaBrush = System.Windows.Media.Brush;
 
 namespace AdelSync;
 
@@ -62,7 +63,7 @@ public partial class MainWindow : Window
             ErrorText.Text = ex.Message;
             StatusPillText.Text = "нет связи";
             StatusPill.Background = new SolidColorBrush(Color.FromRgb(0x3F, 0x1D, 0x1D));
-            StatusPillText.Foreground = (Brush)FindResource("DangerBrush");
+            StatusPillText.Foreground = (MediaBrush)FindResource("DangerBrush");
             if (manual)
                 ToastWindow.ShowToast("AdelSync", "Не удалось получить статус: " + ex.Message);
         }
@@ -75,15 +76,15 @@ public partial class MainWindow : Window
         {
             case "syncing":
                 StatusPill.Background = new SolidColorBrush(Color.FromRgb(0x14, 0x3C, 0x3A));
-                StatusPillText.Foreground = (Brush)FindResource("TealBrush");
+                StatusPillText.Foreground = (MediaBrush)FindResource("TealBrush");
                 break;
             case "cooldown":
                 StatusPill.Background = new SolidColorBrush(Color.FromRgb(0x3A, 0x2E, 0x14));
-                StatusPillText.Foreground = (Brush)FindResource("AmberBrush");
+                StatusPillText.Foreground = (MediaBrush)FindResource("AmberBrush");
                 break;
             default:
                 StatusPill.Background = new SolidColorBrush(Color.FromRgb(0x14, 0x2E, 0x24));
-                StatusPillText.Foreground = (Brush)FindResource("OkBrush");
+                StatusPillText.Foreground = (MediaBrush)FindResource("OkBrush");
                 break;
         }
 
@@ -170,11 +171,11 @@ public sealed class EventRow
     public string Message { get; init; } = "";
     public string TypeLabel { get; init; } = "";
     public string TimeLabel { get; init; } = "";
-    public Brush DotBrush { get; init; } = Brushes.Gray;
+    public MediaBrush DotBrush { get; init; } = Brushes.Gray;
 
     public static EventRow From(SyncEventDto ev)
     {
-        var brush = ev.Type switch
+        MediaBrush brush = ev.Type switch
         {
             "skip" => new SolidColorBrush(Color.FromRgb(0xF5, 0x9E, 0x0B)),
             "sync_start" => new SolidColorBrush(Color.FromRgb(0x2D, 0xD4, 0xBF)),
